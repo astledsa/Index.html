@@ -6,56 +6,10 @@
     <title>Secret</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=UnifrakturMaguntia&display=swap');
-
         body {
             margin: 0;
             padding: 0;
             background-color: black;
-        }
-        /* img {
-            padding-left: 20%;
-            max-width: 80%;
-        } */
-
-        p {
-            line-height:22px;
-            font-family: "UnifrakturMaguntia";
-            font-size: x-large;
-            padding: 5% 30%;
-            text-align: left;
-            color: white;
-        }
-
-        #elements-container {
-            display: flex;
-            flex-direction: row;
-            /* background-color: blue; */
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 2;
-        }
-
-        #text-holder {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* background-color: yellow; */
-            width: 50%;
-            height: 100%;
-            z-index: 2;
-        }
-
-        #image-holder {
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            /* background-color: green; */
-            width: 50%;
-            height: 100%;
-            z-index: 2;
         }
 
         canvas {
@@ -69,8 +23,8 @@
             position: absolute;
             z-index: 1;
         }
-
     </style>
+
 </head>
 <script type="text/javascript">
 
@@ -85,8 +39,8 @@
             let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
             cnv.parent('canvas1');
 
-            img = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/7eaeca06a4f2046cee99afea631bc6cf99dbacb0/assets/images/3.png')
-            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/7eaeca06a4f2046cee99afea631bc6cf99dbacb0/assets/fonts/um.ttf')
+            img = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/33f015d46194906d2fe90eb2e6461db426ef1d4c/assets/images/3.png')
+            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/33f015d46194906d2fe90eb2e6461db426ef1d4c/assets/fonts/um.ttf')
 
             for (let i = 0; i < dropCount; i++) {
                 drops.push({
@@ -101,6 +55,7 @@
 
         p.draw = () => {
             p.background(0, 50);
+            p.tint(255, 100)
             p.image(img, 800, 200, 650, 700);
 
             p.textFont(font)
@@ -139,18 +94,5 @@ And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
 </script>
 <body>
     <main id="canvas1"></main>
-    <div id="elements-container">
-        <div id="text-holder">
-            <p>Welcome, traveller.<br><br>
-                Stare into the abyss,<br>
-                Look for what's amiss,<br>
-                Look with utmost scrutiny,<br>
-                And fulfill your destiny
-            </p>
-        </div>
-        <div id="image-holder">
-            <!-- <img src="./assets/3.png" alt="Error"> -->
-        </div>
-    </div>
 </body>
 </html>

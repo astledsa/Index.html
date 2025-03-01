@@ -13,10 +13,10 @@
             padding: 0;
             background-color: black;
         }
-        img {
+        /* img {
             padding-left: 20%;
             max-width: 80%;
-        }
+        } */
 
         p {
             line-height:22px;
@@ -72,10 +72,75 @@
 
     </style>
 </head>
+<script type="text/javascript">
+
+    let sketch = function(p) {
+
+        let img;
+        let font;
+        let drops = [];
+        const dropCount = 250;
+
+        p.setup = () => {
+            let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
+            cnv.parent('canvas1');
+
+            img = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/7eaeca06a4f2046cee99afea631bc6cf99dbacb0/assets/images/3.png')
+            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/7eaeca06a4f2046cee99afea631bc6cf99dbacb0/assets/fonts/um.ttf')
+
+            for (let i = 0; i < dropCount; i++) {
+                drops.push({
+                    x: p.random(-100, p.width-50),
+                    y: p.random(-500, 0),
+                    length: p.random(1, 5),
+                    speed: p.random(5, 15),
+                    thickness: 0.4
+                });
+            }
+        }
+
+        p.draw = () => {
+            p.background(0, 50);
+            p.image(img, 800, 200, 650, 700);
+
+            p.textFont(font)
+            p.fill('white')
+            p.textSize(20);
+            p.text(`Welcome, traveller\n
+Stare into the abyss,
+Look for what's amiss,
+Look with utmost scrutiny,
+And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
+            p.textAlign(p.LEFT, p.LEFT);
+            
+            for (let i = 0; i < drops.length; i++) {
+                let d = drops[i];
+                
+                p.stroke(255);
+                p.strokeWeight(d.thickness);
+                p.line(d.x, d.y, d.x, d.y + d.length);
+                
+                d.y += d.speed;
+                d.x += p.random(0.0, 2.5);
+                
+                if (d.y > p.height) {
+                    d.y = p.random(-200, -100);
+                    d.x = p.random(p.width);
+                }
+            }
+        }
+
+        p.windowResized = () => {
+            p.resizeCanvas(p.windowWidth, p.windowHeight);
+        }
+    }
+    new p5(sketch);
+
+</script>
 <body>
+    <main id="canvas1"></main>
     <div id="elements-container">
         <div id="text-holder">
-            <h4>Title</h4>
             <p>Welcome, traveller.<br><br>
                 Stare into the abyss,<br>
                 Look for what's amiss,<br>
@@ -88,48 +153,4 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
-    let img;
-    let drops = [];
-const dropCount = 250;
-
-setup = () => {
-  createCanvas(windowWidth, windowHeight);
-    
-  for (let i = 0; i < dropCount; i++) {
-    drops.push({
-      x: random(-100, width-50),
-      y: random(-500, 0),
-      length: random(1, 5),
-      speed: random(5, 15),
-      thickness: 0.4
-    });
-  }
-}
-
-draw = () => {
-  background(0, 50);
-  
-  for (let i = 0; i < drops.length; i++) {
-    let d = drops[i];
-    
-    stroke(255);
-    strokeWeight(d.thickness);
-    line(d.x, d.y, d.x, d.y + d.length);
-    
-    d.y += d.speed;
-  
-    d.x += random(0.0, 2.5);
-    
-    if (d.y > height) {
-      d.y = random(-200, -100);
-      d.x = random(width);
-    }
-  }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-</script>
 </html>

@@ -6,29 +6,64 @@
     <title>Secret</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
     <style>
-        body {
+        html, body {
             margin: 0;
+            padding: 0;            
+        }
+
+        #falconia {
             padding: 0;
-            background-color: black;
+            max-height: 100vh;
+        }
+
+        img {
+            width: 65%;
+            height: 70%;
+            z-index: 2;
         }
 
         canvas {
-            position: absolute;
             display: block;
-            z-index: 1;
         }
 
-        main {
-            top: 0;
+        .castle {
             position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: block;
             z-index: 1;
+            opacity: 0.4;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            /* background-color: blue; */
+            height: 100vh;
+            width: 100vw;
+            z-index: 2;
+        }
+
+        .text-holder, .image-holder {
+            height: 100vh;
+            width: 50vw;
+            z-index: 2;
+        }
+
+        .image-holder {
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            /* background-color: green; */
         }
     </style>
 
 </head>
 <script type="text/javascript">
 
-    let sketch = function(p) {
+    let guts = function(p) {
 
         let img;
         let font;
@@ -39,8 +74,9 @@
             let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
             cnv.parent('canvas1');
 
-            img = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/33f015d46194906d2fe90eb2e6461db426ef1d4c/assets/images/3.png')
-            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/33f015d46194906d2fe90eb2e6461db426ef1d4c/assets/fonts/um.ttf')
+            guts = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/images/3.png')
+            trees = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/images/forest.png')
+            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/fonts/um.ttf')
 
             for (let i = 0; i < dropCount; i++) {
                 drops.push({
@@ -55,8 +91,12 @@
 
         p.draw = () => {
             p.background(0, 50);
-            p.tint(255, 100)
-            p.image(img, 800, 200, 650, 700);
+
+            p.tint(255, 10)
+            p.image(trees, 0, 0, p.width, p.height)
+
+            p.tint(255, 200)
+            p.image(guts, 800, 200, 650, 700);
 
             p.textFont(font)
             p.fill('white')
@@ -89,10 +129,76 @@ And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
             p.resizeCanvas(p.windowWidth, p.windowHeight);
         }
     }
-    new p5(sketch);
+    // new p5(guts);
+
+    let griffith = function (p) {
+        let particles = [];
+        const numParticles = 200;
+        
+        p.setup = () => {
+            let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
+            cnv.parent('canvas2');
+  
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(createParticle());
+            }
+        }
+
+        p.draw = () => {
+            p.background(0);
+            
+            for (let i = 0; i < particles.length; i++) {
+                let P = particles[i];
+                
+                P.x += P.vx;
+                P.y += P.vy;
+    
+                if (P.x < -P.size || P.x > p.width + P.size || 
+                P.y < -P.size || P.y > p.height + P.size) {
+                    particles[i] = createParticle();
+                }
+                
+                p.noStroke();
+                p.fill(255, 255, 255, P.opacity);
+                p.ellipse(P.x, P.y, P.size);
+            }
+
+        }
+        
+        function createParticle() { 
+            let x = p.random(p.width);
+            let y = p.random(p.height);
+  
+            let size = p.random(10, 20);
+            let opacity = p.random(10, 40);
+  
+            let vx = p.random(-0.2, 0.4);
+            let vy = p.random(-0.1, 0.1);
+            
+            return {
+                x, y, size, opacity, vx, vy
+            };
+        }
+        
+        p.windowResized = () => {
+            p.resizeCanvas(p.windowWidth, p.windowHeight);
+        }
+    }
+
+    new p5(griffith);
 
 </script>
 <body>
-    <main id="canvas1"></main>
+    <!-- <main id="canvas1"></main> -->
+    <main id="canvas2"></main>
+    <!-- <div id="falconia">
+        <img class="castle" src="./assets/images/falconia.png">
+        <div class="main-container">
+            <div class="image-holder">
+                <img src="./assets/images/griffth.png" alt="griffth">
+            </div>
+            <div class="text-holder"></div>
+        </div>
+    </div> -->
 </body>
 </html>

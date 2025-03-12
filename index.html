@@ -6,58 +6,105 @@
     <title>Secret</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
     <style>
+        @font-face {
+            font-family: paperish;
+            src: url("assets/fonts/f.ttf");
+        }
+
+        body {
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+        }
+        
+        #canvas1, #canvas2, .centerer {
+            scroll-snap-align: start;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
         html, body {
             margin: 0;
-            padding: 0;            
-        }
-
-        #falconia {
-            padding: 0;
-            max-height: 100vh;
-        }
-
-        img {
-            width: 65%;
-            height: 70%;
-            z-index: 2;
+            padding: 0;  
+            overflow-y: scroll;
+            scrollbar-width: none;    
+            overscroll-behavior-block: none;
+            position: relative;
         }
 
         canvas {
             display: block;
         }
 
-        .castle {
-            position: absolute;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            display: block;
-            z-index: 1;
-            opacity: 0.4;
-        }
-
-        .main-container {
-            display: flex;
-            flex-direction: row;
-            /* background-color: blue; */
+        .house {
             height: 100vh;
             width: 100vw;
-            z-index: 2;
+            opacity: 0.1;
+            position: absolute;
+            z-index: 1;
         }
 
-        .text-holder, .image-holder {
-            height: 100vh;
-            width: 50vw;
-            z-index: 2;
+        .sasaki {
+            height: 80vh;
+            position: absolute;
+            z-index: 9;
+            bottom:0;
+            left: 2vw;
         }
 
-        .image-holder {
+        .Index {
+            font-family: paperish;
+            /* border: 1px dashed black; */
+            /* background-color: yellow; */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            height: 60vh;
+            max-width: 50rem;
+            width: full;
+            align-items: center;
+            justify-items: center;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 0px 50px 5px #ececec;
+        }
+
+        .nav-links {
+            /* height: 80%; */
+            /* background-color: green; */
+            /* border: 1px solid black; */
+            margin: 0;
             display: flex;
             flex-direction: column;
-            justify-content: end;
-            /* background-color: green; */
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            padding: 0px 4rem;
         }
+
+        p {
+            font-size: medium;
+            font-style: italic;
+        }
+
+        a:hover {
+            text-decoration: underline #969595;
+            text-decoration-style: dotted;
+            cursor: pointer;
+        }
+
+        .centerer{
+            /* background-size: cover; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* .nav-links h2 {
+            margin-bottom: 10px;
+        } */
+
     </style>
 
 </head>
@@ -101,11 +148,11 @@
             p.textFont(font)
             p.fill('white')
             p.textSize(20);
-            p.text(`Welcome, traveller\n
-Stare into the abyss,
-Look for what's amiss,
-Look with utmost scrutiny,
-And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
+            p.text(`Rise,
+From the depths of despair,
+from the belly of the abyss,
+For the world does not spare,
+Those who let their life dismiss`, p.width/2 - 450, p.height/2 - 50);
             p.textAlign(p.LEFT, p.LEFT);
             
             for (let i = 0; i < drops.length; i++) {
@@ -129,15 +176,22 @@ And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
             p.resizeCanvas(p.windowWidth, p.windowHeight);
         }
     }
-    // new p5(guts);
+    new p5(guts);
 
     let griffith = function (p) {
+        let font;
+        let griffith;
+        let falconia;
         let particles = [];
         const numParticles = 200;
         
         p.setup = () => {
             let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
             cnv.parent('canvas2');
+
+            font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/fonts/um.ttf')
+            griffith = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/3032a3a5456250084b30d3444f448a69c119bb8c/assets/images/griffth.png')
+            falconia = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/3032a3a5456250084b30d3444f448a69c119bb8c/assets/images/falconia.png')
   
             for (let i = 0; i < numParticles; i++) {
                 particles.push(createParticle());
@@ -145,41 +199,57 @@ And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
         }
 
         p.draw = () => {
-            p.background(0);
+            p.background(255, 400);
+
+            p.tint(255, 50)
+            p.image(falconia, 0, 0, p.width, p.height)
+
+            p.tint(255, 500)
+            p.image(griffith, 0, 200, 550, 700);
             
+            p.textFont(font)
+            p.fill('black')
+            p.textSize(20);
+            p.text(`Fall,
+Down to the city of low-lives,
+back to the place of vermon,
+Pity the ones with blank eyes,
+pray, that they don't turn demon`, p.width/2 + 250, p.height/2 - 50);
+            p.textAlign(p.LEFT, p.LEFT);
+
             for (let i = 0; i < particles.length; i++) {
                 let P = particles[i];
-                
+
                 P.x += P.vx;
                 P.y += P.vy;
-    
+
                 if (P.x < -P.size || P.x > p.width + P.size || 
                 P.y < -P.size || P.y > p.height + P.size) {
                     particles[i] = createParticle();
                 }
-                
+
                 p.noStroke();
-                p.fill(255, 255, 255, P.opacity);
+                p.fill(200, 200, 200, P.opacity);
                 p.ellipse(P.x, P.y, P.size);
             }
 
         }
-        
+
         function createParticle() { 
             let x = p.random(p.width);
             let y = p.random(p.height);
-  
+
             let size = p.random(10, 20);
-            let opacity = p.random(10, 40);
-  
-            let vx = p.random(-0.2, 0.4);
-            let vy = p.random(-0.1, 0.1);
+            let opacity = 60;
+
+            let vx = p.random(-0.8, 0.8);
+            let vy = p.random(-0.1, 0.2);
             
             return {
                 x, y, size, opacity, vx, vy
             };
         }
-        
+   
         p.windowResized = () => {
             p.resizeCanvas(p.windowWidth, p.windowHeight);
         }
@@ -189,16 +259,29 @@ And fulfill your destiny`, p.width/2 - 450, p.height/2 - 50);
 
 </script>
 <body>
-    <!-- <main id="canvas1"></main> -->
     <main id="canvas2"></main>
-    <!-- <div id="falconia">
-        <img class="castle" src="./assets/images/falconia.png">
-        <div class="main-container">
-            <div class="image-holder">
-                <img src="./assets/images/griffth.png" alt="griffth">
+    <main id="canvas1"></main>
+    <div class="centerer">
+        <img class="house" src="assets/images/vagabond.jpeg">
+        <div class="Index">
+            <div class="nav-links">
+                <a><h1>About</h1></a>
+                <p>A little note on myself, this site and why I made it in the first place.</p>
             </div>
-            <div class="text-holder"></div>
+            <div class="nav-links">
+                <a><h1>Resources</h1></a>
+                <p>Cool websites, selected youtube videos and other such media on mangas!</p>
+            </div>
+            <div class="nav-links">
+                <a><h1>Essays</h1></a>
+                <p>The main reason for making this site. Somewhere I can rant, analyse and profess my love for mangas.</p>
+            </div>
+            <div class="nav-links">
+                <a><h1>Favourites</h1></a>
+                <p>Some of my favourite mangas, why I loved them and what should one expect before diving into them.</p>
+            </div>
         </div>
-    </div> -->
+        <img class="sasaki" src="assets/images/sk.png">
+    </div>
 </body>
 </html>

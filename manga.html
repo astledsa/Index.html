@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+    <style>
+        @font-face {
+            font-family: paperish;
+            src: url("assets/fonts/f.ttf");
+        }
+
+        @font-face {
+            font-family: brush;
+            src: url("assets/fonts/edosz.ttf");
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .Home {
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            overscroll-behavior-block: none;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .Home {
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+        }
+
+
+        #canvas1,
+        #canvas2,
+        .centerer {
+            scroll-snap-align: start;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .house {
+            height: 100vh;
+            width: 100vw;
+            opacity: 0.1;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .sasaki {
+            height: 80vh;
+            position: absolute;
+            z-index: 9;
+            bottom: 0;
+            left: 2vw;
+        }
+
+        .Index {
+            font-family: paperish;
+            /* border: 1px dashed black; */
+            /* background-color: yellow; */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            height: 60vh;
+            max-width: 50rem;
+            width: full;
+            align-items: center;
+            justify-items: center;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 0px 50px 5px #ececec;
+        }
+
+        .nav-links {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            padding: 0px 4rem;
+        }
+
+        .nav-links p {
+            font-size: medium;
+            font-style: italic;
+        }
+
+        a:hover {
+            text-decoration: underline #969595;
+            text-decoration-style: dotted;
+            cursor: pointer;
+        }
+
+        .centerer {
+            /* background-size: cover; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .about-para-container {
+            height: 100%;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-para-container p {
+            font-family: brush;
+        }
+
+        .about-image-container {
+            height: 100%;
+            width: 50%;
+            display: flex;
+            align-items: end;
+            justify-content: end;
+        }
+
+        .aboutPage {
+            color: white;
+            display: none;
+            flex-direction: row;
+            justify-content: right;
+            align-items: end;
+            background-color: rgb(57, 57, 57);
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .aboutPage img {
+            height: 90%;
+        }
+
+        button {
+            background: none; 
+            border: none;
+            padding: 0;
+            font: inherit;
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+            outline: none;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="Home">
+        <main id="canvas2"></main>
+        <main id="canvas1"></main>
+        <div class="centerer">
+            <img class="house" src="assets/images/vagabond.jpeg">
+            <div class="Index">
+                <div class="nav-links">
+                    <a><h1>Essays</h1></a>
+                    <p>The main reason for making this site. Somewhere I can rant, analyse and profess my love for mangas.</p>
+                </div>
+                <div class="nav-links">
+                    <a><h1>Resources</h1></a>
+                    <p>Cool websites, selected youtube videos and other such media on mangas!</p>
+                </div>
+                <div class="nav-links">
+                    <a><h1>Favourites</h1></a>
+                    <p>Some of my favourite mangas, why I loved them and what should one expect before diving into them.</p>
+                </div>
+                <div class="nav-links">
+                    <a onclick="Toggle()"><h1>About</h1></a>
+                    <p>A little note on myself, this site and why I made it in the first place.</p>
+                </div>
+            </div>
+            <img class="sasaki" src="assets/images/sk.png">
+        </div>
+    </div>
+
+    <div class="aboutPage">
+        <div class="about-para-container">
+            <p>
+                About Me <br><br>
+                Programming and Manga share the nature of their essence: Art.<br>
+                In acknowledging their true essence, it was only natural that<br>
+                I ventured out to craft this website, using nothing but html,<br>
+                css and js. I must admit, however, that I have used one of my<br>
+                favorite javascript libraries in order to construct some of the<br>
+                pages on this site: <a style="color: white;" href="https://p5js.org/">p5.js</a><br>
+                <br>
+                Regardless, my reason for not using frameworks was to avoid the<br>
+                bloated software that they are, and simply focus on the <i>why</i><br>
+                of this site: which is ultimately a place for me to write about<br>
+                something I am passionate about. <br><br>
+                In a rare case that someone has come about this site without going<br>
+                through my personal site, <a style="color: white;" href="https://astledsa.com/">here</a> it is. This site is for everyone<br>
+                who loves mangas, and hence I would be extremely happy, for the <br>
+                handful of people who ever come here, to give suggestions, <br>
+                improvements and even write on this site!<br><br>
+                <button onclick="renderFront()">Home</button>
+            </p>
+        </div>
+        <div class="about-image-container">
+            <img src="./assets/images/mm3.png">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        let guts = function (p) {
+
+            let img;
+            let font;
+            let drops = [];
+            const dropCount = 250;
+
+            p.setup = () => {
+                let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
+                cnv.parent('canvas1');
+
+                guts = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/images/3.png')
+                trees = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/images/forest.png')
+                font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/fonts/um.ttf')
+
+                for (let i = 0; i < dropCount; i++) {
+                    drops.push({
+                        x: p.random(-100, p.width - 50),
+                        y: p.random(-500, 0),
+                        length: p.random(1, 5),
+                        speed: p.random(5, 15),
+                        thickness: 0.4
+                    });
+                }
+            }
+
+            p.draw = () => {
+                p.background(0, 50);
+
+                p.tint(255, 10)
+                p.image(trees, 0, 0, p.width, p.height)
+
+                p.tint(255, 200)
+                p.image(guts, 800, 200, 650, 700);
+
+                p.textFont(font)
+                p.fill('white')
+                p.textSize(20);
+                p.text(`Rise,
+From the depths of despair,
+from the belly of the abyss,
+For the world does not spare,
+Those who let their life dismiss`, p.width / 2 - 450, p.height / 2 - 50);
+                p.textAlign(p.LEFT, p.LEFT);
+
+                for (let i = 0; i < drops.length; i++) {
+                    let d = drops[i];
+
+                    p.stroke(255);
+                    p.strokeWeight(d.thickness);
+                    p.line(d.x, d.y, d.x, d.y + d.length);
+
+                    d.y += d.speed;
+                    d.x += p.random(0.0, 2.5);
+
+                    if (d.y > p.height) {
+                        d.y = p.random(-200, -100);
+                        d.x = p.random(p.width);
+                    }
+                }
+            }
+
+            p.windowResized = () => {
+                p.resizeCanvas(p.windowWidth, p.windowHeight);
+            }
+        }
+
+        let griffith = function (p) {
+            let font;
+            let griffith;
+            let falconia;
+            let particles = [];
+            const numParticles = 200;
+
+            p.setup = () => {
+                let cnv = p.createCanvas(p.windowWidth, p.windowHeight);
+                cnv.parent('canvas2');
+
+                font = p.loadFont('https://raw.githubusercontent.com/astledsa/Index.html/e0a3bca5473de824cf3650a53eda2ac36df5500b/assets/fonts/um.ttf')
+                griffith = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/3032a3a5456250084b30d3444f448a69c119bb8c/assets/images/griffth.png')
+                falconia = p.loadImage('https://raw.githubusercontent.com/astledsa/Index.html/3032a3a5456250084b30d3444f448a69c119bb8c/assets/images/falconia.png')
+
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(createParticle());
+                }
+            }
+
+            p.draw = () => {
+                p.background(255, 400);
+
+                p.tint(255, 50)
+                p.image(falconia, 0, 0, p.width, p.height)
+
+                p.tint(255, 500)
+                p.image(griffith, 0, 200, 550, 700);
+
+                p.textFont(font)
+                p.fill('black')
+                p.textSize(20);
+                p.text(`Fall,
+Down to the city of low-lives,
+back to the place of vermon,
+Pity the ones with blank eyes,
+pray, that they don't turn demon`, p.width / 2 + 250, p.height / 2 - 50);
+                p.textAlign(p.LEFT, p.LEFT);
+
+                for (let i = 0; i < particles.length; i++) {
+                    let P = particles[i];
+
+                    P.x += P.vx;
+                    P.y += P.vy;
+
+                    if (P.x < -P.size || P.x > p.width + P.size ||
+                        P.y < -P.size || P.y > p.height + P.size) {
+                        particles[i] = createParticle();
+                    }
+
+                    p.noStroke();
+                    p.fill(200, 200, 200, P.opacity);
+                    p.ellipse(P.x, P.y, P.size);
+                }
+
+            }
+
+            function createParticle() {
+                let x = p.random(p.width);
+                let y = p.random(p.height);
+
+                let size = p.random(10, 20);
+                let opacity = 60;
+
+                let vx = p.random(-0.8, 0.8);
+                let vy = p.random(-0.1, 0.2);
+
+                return {
+                    x, y, size, opacity, vx, vy
+                };
+            }
+
+            p.windowResized = () => {
+                p.resizeCanvas(p.windowWidth, p.windowHeight);
+            }
+        }
+
+        new p5(guts);
+        new p5(griffith);
+
+        function renderFront () {
+            let home = document.getElementsByClassName('Home')[0];
+            let about = document.getElementsByClassName('aboutPage')[0];
+            about.style.display = 'none';
+            home.style.display = 'block';
+        } 
+
+        function Toggle () {
+            let home = document.getElementsByClassName('Home')[0];
+            let about = document.getElementsByClassName('aboutPage')[0];
+            home.style.display = 'none';
+            about.style.display = 'flex';
+        } 
+
+    </script>
+</body>
+</html>
